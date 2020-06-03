@@ -29,6 +29,16 @@ export default class TodosList extends Component{
                  console.log(err);    
              });
     }
+
+    componentDidUpdate() {
+        axios.get('http://localhost:4000/todos/')
+             .then(res => {
+                 this.setState({todos: res.data});
+             })
+             .catch((err)=>{
+                 console.log(err);    
+             });
+    }
     
     todoList(){
         return this.state.todos.map((currentTodo, i)=>{
