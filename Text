@@ -1,0 +1,110 @@
+<h2 class="section-title">Import / Export Transaction</h2>
+
+<p-card class="combined-card">
+  <!-- Header Row -->
+  <div class="p-grid p-ai-center p-jc-between p-mb-3">
+    <div class="p-col-12 p-md-6">
+      <h3 class="txn-title">Edge_OFS_BEM_Txn_4</h3>
+      <p-tag value="Active" severity="success" styleClass="p-px-3 p-py-1"></p-tag>
+    </div>
+    <div class="p-col-12 p-md-6 p-text-right">
+      <button pButton label="View more" class="p-button-sm p-button-outlined"></button>
+    </div>
+  </div>
+
+  <!-- Metadata Grid -->
+  <div class="p-grid">
+    <div class="p-col-12 p-md-6">
+      <table class="txn-meta-table">
+        <tr *ngFor="let field of transactionFields">
+          <td class="label-cell">{{ field.label }}</td>
+          <td class="value-cell">{{ field.value || '-' }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Import/Export History Title & Export Button -->
+  <div class="p-d-flex p-jc-between p-ai-center p-mt-4 p-mb-2">
+    <h4 class="table-title">Import/Export History</h4>
+    <button pButton icon="pi pi-download" label="Export" class="p-button-sm p-button-secondary"></button>
+  </div>
+
+  <!-- Table Inside Same Card -->
+  <p-table [value]="selectedTransaction.history" class="p-datatable-sm" [responsiveLayout]="'scroll'">
+    <ng-template pTemplate="header">
+      <tr>
+        <th></th>
+        <th>Date & Time</th>
+        <th>Environment</th>
+        <th>Performed by</th>
+        <th>Txn. Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tx>
+      <tr>
+        <td>
+          <span class="direction-badge" [ngStyle]="{ 'background-color': getDirectionColor(tx.direction) }"></span>
+          {{ tx.direction }}
+        </td>
+        <td>{{ tx.dateTime | date: 'MMMM d, y @ h:mm a' }}</td>
+        <td>{{ tx.environment }}</td>
+        <td>{{ tx.performedBy }}</td>
+        <td>
+          <p-tag
+            [value]="tx.status"
+            [severity]="tx.status === 'Success' ? 'success' : 'danger'"
+            styleClass="p-px-2 p-py-1"
+          ></p-tag>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+.combined-card {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.txn-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.txn-meta-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  td {
+    padding: 0.4rem 0.6rem;
+    vertical-align: top;
+  }
+
+  .label-cell {
+    font-weight: bold;
+    background: #e9ecef;
+    width: 40%;
+  }
+
+  .value-cell {
+    background: #f8f9fa;
+    width: 60%;
+  }
+}
+
+.table-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.direction-badge {
+  display: inline-block;
+  width: 5px;
+  height: 100%;
+  margin-right: 6px;
+  border-radius: 2px;
+}
+
+
